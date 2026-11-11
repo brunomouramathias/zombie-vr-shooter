@@ -1,0 +1,28 @@
+* text=auto
+
+*.cs text
+*.md text
+*.json text
+*.asset text
+*.prefab text
+*.unity text
+*.meta text
+*.controller text
+*.mat text
+*.anim text
+*.inputactions text
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.tga binary
+*.psd binary
+*.fbx binary
+*.obj binary
+*.wav binary
+*.mp3 binary
+*.ogg binary
+*.dll binary
+*.aar binary
+*.so binary
+*.bundle binary
