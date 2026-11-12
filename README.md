@@ -4,6 +4,8 @@ A small VR arcade shooter for Android, built with Unity and Google Cardboard.
 The player stays in place, looks around with the phone's gyroscope and takes
 down zombies by aiming at their heads. No controller is required.
 
+[Download the latest APK](https://github.com/brunomouramathias/zombie-vr-shooter/releases/latest)
+
 ![Gameplay](docs/images/gameplay.jpg)
 
 | HUD | Enemy |
