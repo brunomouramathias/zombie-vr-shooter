@@ -1,88 +1,92 @@
-# Architecture
+# Arquitetura
 
-## Overview
+## Visão geral
 
-The game is a single-scene VR experience. All gameplay systems live in
-`Assets/Scenes/Zombie.unity`; the only runtime dependencies loaded by name are
-the enemy, bullet and audio prefabs in `Assets/Resources`.
+O jogo é uma experiência VR de cena única. Todos os sistemas de gameplay ficam
+em `Assets/Scenes/Zombie.unity`; as únicas dependências carregadas por nome em
+runtime são os prefabs de inimigos, bala e áudio em `Assets/Resources`.
 
 ```mermaid
 flowchart TD
-    GM[GameManager] -->|state and events| UI[ScoreboardUI]
-    GM -->|state and events| SP[EnemySpawner]
-    PC[PlayerController] -->|gaze raycast| WC[WeaponController]
-    WC -->|bullet damage| ZC[ZombieController]
-    ZC -->|score and death| GM
+    GM[GameManager] -->|estado e eventos| UI[ScoreboardUI]
+    GM -->|estado e eventos| SP[EnemySpawner]
+    PC[PlayerController] -->|raycast de olhar| WC[WeaponController]
+    WC -->|dano da bala| ZC[ZombieController]
+    ZC -->|pontuação e morte| GM
     SP -->|spawn| ZC
-    ZC -->|contact| PD[PlayerHitDetector]
-    PD -->|damage| GM
-    VB[VrBootstrapper] -->|starts XR| XR[Cardboard XR]
+    ZC -->|contato| PD[PlayerHitDetector]
+    PD -->|dano| GM
+    VB[VrBootstrapper] -->|inicia XR| XR[Cardboard XR]
 ```
 
-## Core systems
+## Sistemas principais
 
-### Game state
+### Estado do jogo
 
-`GameManager` is a singleton with three states: `StartMenu`, `Playing` and
-`GameOver`. It owns the score, best score and current lives, and raises events
-consumed by the HUD and the spawner. `ScoreboardUI` starts a round as soon as
-the scene is ready, so there is no separate start screen in the current build.
+`GameManager` é um singleton com três estados: `StartMenu`, `Playing` e
+`GameOver`. Ele controla a pontuação, o recorde e as vidas atuais, e dispara
+eventos consumidos pelo HUD e pelo spawner. O `ScoreboardUI` inicia uma rodada
+assim que a cena está pronta, então não existe uma tela de início separada no
+build atual.
 
-### Player and shooting
+### Jogador e tiro
 
-`PlayerController` sits on the main camera. It raycasts forward every frame to
-find gaze targets and keeps the player root stationary. In the editor it also
-allows right-mouse look; in a device build the Cardboard input subsystem drives
-the camera through a `TrackedPoseDriver` configured for rotation only (3DoF).
+`PlayerController` fica na câmera principal. Ele faz um raycast para frente a
+cada frame para encontrar alvos de olhar e mantém a raiz do jogador parada. No
+editor, também permite olhar com o botão direito do mouse; no dispositivo, o
+subsistema de entrada do Cardboard controla a câmera por meio de um
+`TrackedPoseDriver` configurado apenas para rotação (3DoF).
 
-`WeaponController` is added to the camera at runtime. When the gaze ray hits an
-enemy's head, it fires a bullet, applies damage and awards points. The head test
-uses the hit bone name when available; otherwise it compares the hit height with
-the enemy's bounding box.
+`WeaponController` é adicionado à câmera em runtime. Quando o raio de olhar
+atinge a cabeça de um inimigo, ele dispara uma bala, aplica dano e soma pontos.
+O teste de cabeça usa o nome do osso atingido quando disponível; caso contrário,
+compara a altura do impacto com a caixa delimitadora do inimigo.
 
-### Enemies
+### Inimigos
 
-`ZombieController` controls a `NavMeshAgent`, an animation component and a 3D
-`AudioSource`. It updates its destination when the player moves and plays walk,
-attack and death animations. On death it disables its colliders, adds score and
-notifies the spawner.
+`ZombieController` controla um `NavMeshAgent`, um componente de animação e um
+`AudioSource` 3D. Ele atualiza o destino quando o jogador se move e reproduz as
+animações de caminhada, ataque e morte. Ao morrer, desativa os colliders, soma
+pontos e avisa o spawner.
 
-`EnemySpawner` waits a short delay after the round starts, spawns the initial
-wave and then keeps the arena populated. Spawn points are sampled from the
-NavMesh at a minimum distance from the player, and the wave size grows with the
-score up to a fixed limit.
+`EnemySpawner` espera um pequeno atraso depois do início da rodada, gera a onda
+inicial e mantém a arena populada. Os pontos de spawn são amostrados na NavMesh
+a uma distância mínima do jogador, e o tamanho da onda cresce com a pontuação
+até um limite fixo.
 
 ### HUD
 
-`ScoreboardUI` uses a world-space canvas that follows the camera with a smooth
-vertical-constrained offset. It shows score, best score and three hearts, and
-switches to a game-over panel when the player loses all lives. The restart
-button supports gaze dwell, Cardboard trigger, touch and mouse input.
+`ScoreboardUI` usa um canvas em world space que acompanha a câmera com um
+deslocamento suave e restrito na vertical. Ele mostra pontuação, recorde e três
+corações, e troca para o painel de fim de jogo quando o jogador perde todas as
+vidas. O botão de reinício aceita olhar com dwell, trigger do Cardboard, toque e
+mouse.
 
-### VR bootstrap
+### Bootstrap de VR
 
-`VrBootstrapper` is created automatically at runtime on Android. It checks the
-XR state after startup and, if necessary, initializes the Cardboard loader
-through XR Management or directly through the embedded loader asset. This covers
-devices where the automatic XR startup is slow or blocked.
+`VrBootstrapper` é criado automaticamente em runtime no Android. Ele verifica o
+estado do XR depois da inicialização e, se necessário, inicializa o loader do
+Cardboard pelo XR Management ou diretamente pelo asset do loader embutido. Isso
+cobre dispositivos em que o início automático do XR é lento ou bloqueado.
 
-## XR configuration
+## Configuração de XR
 
-- XR Plug-in Management is enabled for the Android build target.
-- The Cardboard loader is referenced by `Assets/XR/XRGeneralSettingsPerBuildTarget.asset`.
-- The loader asset is stored in `Assets/Resources/XR/XRLoader.asset` so the
-  bootstrap can load it directly if needed.
-- `TrackedPoseDriver` uses `RotationOnly` tracking because Cardboard provides
-  orientation, not positional, tracking.
+- O XR Plug-in Management está habilitado para o build target Android.
+- O loader do Cardboard é referenciado em
+  `Assets/XR/XRGeneralSettingsPerBuildTarget.asset`.
+- O asset do loader fica em `Assets/Resources/XR/XRLoader.asset` para que o
+  bootstrap consiga carregá-lo diretamente se precisar.
+- O `TrackedPoseDriver` usa rastreamento `RotationOnly`, porque o Cardboard
+  fornece orientação, não posição.
 
-## Data flow
+## Fluxo de dados
 
-1. A round starts and `EnemySpawner` spawns the first wave.
-2. Enemies path to the player using the NavMesh.
-3. The player looks at an enemy head; `WeaponController` fires and
-   `ZombieController` takes damage.
-4. A dead enemy awards score and is removed from the spawner's list.
-5. An enemy that reaches the player triggers `PlayerHitDetector`, which removes
-   a life.
-6. At zero lives the game state changes to `GameOver` and the HUD shows the
-   restart panel.
+1. A rodada começa e o `EnemySpawner` gera a primeira onda.
+2. Os inimigos se movem até o jogador usando a NavMesh.
+3. O jogador olha para a cabeça de um inimigo; o `WeaponController` dispara e o
+   `ZombieController` recebe dano.
+4. Um inimigo morto soma pontos e é removido da lista do spawner.
+5. Um inimigo que alcança o jogador aciona o `PlayerHitDetector`, que remove uma
+   vida.
+6. Com zero vidas, o estado muda para `GameOver` e o HUD mostra o painel de
+   reinício.

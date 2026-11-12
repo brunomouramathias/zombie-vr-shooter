@@ -1,52 +1,54 @@
-# Building the Android APK
+# Gerando o APK Android
 
-## Requirements
+## Requisitos
 
 - Unity 6000.5.9f1.
-- Android Build Support installed through Unity Hub, including:
-  - Android SDK and NDK
+- Android Build Support instalado pelo Unity Hub, incluindo:
+  - Android SDK e NDK
   - OpenJDK
-- A device with Android 8.0 (API 26) or newer for testing.
+- Um dispositivo com Android 8.0 (API 26) ou superior para testar.
 
-## Steps
+## Passos
 
-1. Open the project in Unity 6000.5.9f1.
-2. Open `Assets/Scenes/Zombie.unity`.
-3. Go to **File > Build Settings**.
-4. Select **Android** and click **Switch Platform**.
-5. Make sure the scene list contains only `Assets/Scenes/Zombie.unity`.
-6. Click **Build** and choose the output path.
+1. Abra o projeto no Unity 6000.5.9f1.
+2. Abra `Assets/Scenes/Zombie.unity`.
+3. Vá em **File > Build Settings**.
+4. Selecione **Android** e clique em **Switch Platform**.
+5. Confirme que a lista de cenas contém apenas `Assets/Scenes/Zombie.unity`.
+6. Clique em **Build** e escolha o caminho de saída.
 
-The project also includes a small editor command that builds the same scene to
+O projeto também inclui um comando de editor que gera a mesma cena em
 `Builds/ZombieVR.apk`:
 
 - **Tools > Zombie VR > Build APK**
 
-## Settings used
+## Configurações usadas
 
-| Setting | Value |
+| Configuração | Valor |
 | --- | --- |
 | Application ID | `com.brunomouramathias.zombievr` |
-| Minimum API level | 26 |
-| Target API level | Automatic (highest installed) |
-| Scripting backend | IL2CPP |
-| Target architecture | ARM64 |
-| Graphics API | OpenGL ES 3 / Vulkan (Cardboard compatible) |
+| Nível mínimo de API | 26 |
+| Nível de API alvo | Automático (maior instalado) |
+| Backend de scripts | IL2CPP |
+| Arquitetura alvo | ARM64 |
+| API gráfica | OpenGL ES 3 / Vulkan (compatível com Cardboard) |
 
-## Installing on the phone
+## Instalando no celular
 
-1. Copy the `.apk` to the device.
-2. Allow installation from unknown sources for the file manager used.
-3. Install and open the app.
-4. Grant any requested permissions.
-5. Place the phone in the Cardboard viewer and adjust the viewer profile if
-   needed.
+1. Copie o `.apk` para o dispositivo.
+2. Permita a instalação de fontes desconhecidas para o gerenciador de arquivos
+   usado.
+3. Instale e abra o aplicativo.
+4. Conceda as permissões solicitadas.
+5. Coloque o celular no visor Cardboard e ajuste o perfil do visor se
+   necessário.
 
-## Troubleshooting
+## Solução de problemas
 
-- **The game opens in a single flat view**: confirm that XR Plug-in Management
-  is enabled for Android and that the Cardboard loader is selected.
-- **No head tracking**: check that the device has a working gyroscope and that
-  the app is running in landscape orientation.
-- **Build fails on a fresh machine**: install the Android SDK, NDK and OpenJDK
-  modules through Unity Hub, then reopen the project.
+- **O jogo abre em tela única, sem estéreo**: confirme que o XR Plug-in
+  Management está habilitado para Android e que o loader do Cardboard está
+  selecionado.
+- **Sem rastreamento de cabeça**: verifique se o dispositivo tem giroscópio
+  funcionando e se o aplicativo está em orientação paisagem.
+- **O build falha em uma máquina nova**: instale os módulos Android SDK, NDK e
+  OpenJDK pelo Unity Hub e reabra o projeto.

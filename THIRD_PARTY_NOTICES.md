@@ -1,28 +1,28 @@
-# Third-party notices
+# Avisos de terceiros
 
-This project uses the following third-party packages and assets.
+Este projeto usa os seguintes pacotes e assets de terceiros.
 
 ## Google Cardboard XR Plugin for Unity
 
-- Version: 1.35.0
-- License: Apache License 2.0
-- Source: https://github.com/googlevr/cardboard-xr-plugin
+- Versão: 1.35.0
+- Licença: Apache License 2.0
+- Origem: https://github.com/googlevr/cardboard-xr-plugin
 
-The plugin is included in `Packages/com.google.xr.cardboard` so the project can
-be built without fetching it from Git. Its license and notices are kept inside
-the package folder.
+O plugin está incluído em `Packages/com.google.xr.cardboard` para que o projeto
+possa ser compilado sem baixar nada pelo Git. A licença e os avisos originais
+permanecem dentro da pasta do pacote.
 
-## Unity packages
+## Pacotes da Unity
 
-The project uses packages provided by Unity Technologies, including Universal
+O projeto usa pacotes fornecidos pela Unity Technologies, incluindo Universal
 Render Pipeline, Input System, XR Plug-in Management, AI Navigation, TextMesh
-Pro and Test Framework. These packages are subject to the Unity Package Manager
-terms.
+Pro e Test Framework. Esses pacotes estão sujeitos aos termos do Unity Package
+Manager.
 
-## Art and audio
+## Arte e áudio
 
-- Enemy and weapon assets: see `Assets/Enemy/CREDITS.md`.
-- Audio assets: see `Assets/Sons/CREDITS.md`.
+- Assets de inimigos e arma: veja `Assets/Enemy/CREDITS.md`.
+- Assets de áudio: veja `Assets/Sons/CREDITS.md`.
 
-If you reuse an asset in another project, check the original license and
-attribution requirements listed in those files.
+Se você reutilizar algum asset em outro projeto, confira a licença original e
+os requisitos de atribuição listados nesses arquivos.

@@ -1,4 +1,4 @@
-# Unity generated
+# Gerado pelo Unity
 [Ll]ibrary/
 [Tt]emp/
 [Oo]bj/
@@ -9,7 +9,7 @@
 [Mm]emoryCaptures/
 [Rr]ecordings/
 
-# IDE and generated project files
+# Arquivos de IDE e projetos gerados
 .vs/
 .vscode/
 .idea/
@@ -28,17 +28,17 @@
 *.opendb
 *.VC.db
 
-# Build output
+# Saída de build
 *.apk
 *.aab
 *.unitypackage
 *.app
 *.exe
 
-# OS files
+# Arquivos do sistema operacional
 .DS_Store
 Thumbs.db
 
-# Crash reports
+# Relatórios de crash
 sysinfo.txt
 *.stackdump
